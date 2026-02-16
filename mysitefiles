@@ -1,0 +1,510 @@
+Tiktok calculator · HTML
+Copier
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur Revenus TikTok</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: clamp(28px, 6vw, 42px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #b0b0b0;
+            font-weight: 400;
+        }
+
+        /* ===== FORM ===== */
+        .calculator-form {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.03);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 32px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #e0e0e0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== INPUT ===== */
+        input[type="number"] {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 18px;
+            background: #000000;
+            border: 2px solid #2a2a2a;
+            border-radius: 16px;
+            color: #ffffff;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+        }
+
+        input[type="number"]:hover {
+            border-color: #3a3a3a;
+        }
+
+        input[type="number"]:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+        }
+
+        input[type="number"]::placeholder {
+            color: #4a4a4a;
+            font-weight: 400;
+        }
+
+        /* Remove spinners */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* ===== SLIDER ===== */
+        .slider-container {
+            position: relative;
+        }
+
+        .slider-value {
+            display: inline-block;
+            background: #ffffff;
+            color: #000000;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            outline: none;
+            margin-top: 16px;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== BUTTON ===== */
+        .calculate-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 255, 255, 0.35);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== RESULTS ===== */
+        .results {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 24px;
+            padding: 40px;
+            margin-top: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.03);
+        }
+
+        .results.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-item {
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-size: 13px;
+            color: #808080;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .result-range {
+            font-size: 20px;
+            color: #b0b0b0;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            color: #4a4a4a;
+        }
+
+        .footer h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .coming-soon {
+            list-style: none;
+            padding: 0;
+        }
+
+        .coming-soon li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #5a5a5a;
+        }
+
+        .coming-soon li::before {
+            content: "→ ";
+            margin-right: 6px;
+        }
+
+        /* ===== ERROR MESSAGE ===== */
+        .error-message {
+            color: #ff4444;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .calculator-form {
+                padding: 30px 24px;
+            }
+
+            .results {
+                padding: 30px 24px;
+            }
+
+            .result-value {
+                font-size: 28px;
+            }
+
+            .result-range {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>Combien rapportent tes vues TikTok ?</h1>
+            <p class="subtitle">Entre ton nombre de vues et découvre ton estimation.</p>
+        </div>
+
+        <!-- CALCULATOR FORM -->
+        <div class="calculator-form">
+            <div class="form-group">
+                <label for="views">Nombre de vues</label>
+                <input 
+                    type="number" 
+                    id="views" 
+                    placeholder="Ex : 1000000"
+                    min="0"
+                    step="1000"
+                >
+                <div class="error-message" id="error">Entre un nombre de vues valide</div>
+            </div>
+
+            <div class="form-group">
+                <label for="engagement">
+                    Taux d'engagement
+                    <span class="slider-value" id="engagementValue">5%</span>
+                </label>
+                <input 
+                    type="range" 
+                    id="engagement" 
+                    min="1" 
+                    max="15" 
+                    value="5"
+                >
+            </div>
+
+            <button class="calculate-btn" id="calculateBtn">Calculer</button>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results" id="results">
+            <div class="result-item">
+                <div class="result-label">Revenus estimés (minimum)</div>
+                <div class="result-value" id="minRevenue">0€</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">Revenus estimés (maximum)</div>
+                <div class="result-value" id="maxRevenue">0€</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">Projection annuelle</div>
+                <div class="result-value" id="yearlyRevenue">0€</div>
+                <div class="result-range">Si mêmes vues chaque mois</div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <h3>Prochainement :</h3>
+            <ul class="coming-soon">
+                <li>Calculateur revenus YouTube</li>
+                <li>Estimation sponsoring</li>
+                <li>Simulation croissance abonnés</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // ===== CONSTANTS =====
+        const RPM_LOW = 0.20;   // Revenus pour 1000 vues (bas)
+        const RPM_HIGH = 1.00;  // Revenus pour 1000 vues (haut)
+
+        // ===== DOM ELEMENTS =====
+        const viewsInput = document.getElementById('views');
+        const engagementSlider = document.getElementById('engagement');
+        const engagementValue = document.getElementById('engagementValue');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const results = document.getElementById('results');
+        const errorMessage = document.getElementById('error');
+        const minRevenueEl = document.getElementById('minRevenue');
+        const maxRevenueEl = document.getElementById('maxRevenue');
+        const yearlyRevenueEl = document.getElementById('yearlyRevenue');
+
+        // ===== UPDATE ENGAGEMENT DISPLAY =====
+        engagementSlider.addEventListener('input', (e) => {
+            engagementValue.textContent = `${e.target.value}%`;
+        });
+
+        // ===== FORMAT NUMBER WITH SPACES =====
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        // ===== FORMAT CURRENCY =====
+        function formatCurrency(amount) {
+            if (amount >= 1000000) {
+                return `${(amount / 1000000).toFixed(2)}M€`;
+            } else if (amount >= 1000) {
+                return `${(amount / 1000).toFixed(2)}k€`;
+            } else {
+                return `${amount.toFixed(2)}€`;
+            }
+        }
+
+        // ===== CALCULATE REVENUE =====
+        function calculateRevenue() {
+            // Hide error message
+            errorMessage.classList.remove('show');
+
+            // Get values
+            const views = parseFloat(viewsInput.value);
+            const engagement = parseFloat(engagementSlider.value);
+
+            // Validation
+            if (!views || views <= 0) {
+                errorMessage.classList.add('show');
+                results.classList.remove('show');
+                return;
+            }
+
+            // Calculate revenues
+            // Base calculation: (vues / 1000) * RPM
+            const baseMin = (views / 1000) * RPM_LOW;
+            const baseMax = (views / 1000) * RPM_HIGH;
+
+            // Engagement bonus: higher engagement slightly increases max revenue
+            // Engagement between 1-15%, gives 0-20% bonus on max revenue
+            const engagementBonus = 1 + (engagement / 100);
+            const minRevenue = baseMin;
+            const maxRevenue = baseMax * engagementBonus;
+
+            // Yearly projection: monthly views * 12
+            const yearlyMin = minRevenue * 12;
+            const yearlyMax = maxRevenue * 12;
+
+            // Display results
+            minRevenueEl.textContent = formatCurrency(minRevenue);
+            maxRevenueEl.textContent = formatCurrency(maxRevenue);
+            yearlyRevenueEl.textContent = formatCurrency((yearlyMin + yearlyMax) / 2);
+
+            // Show results with animation
+            results.classList.add('show');
+        }
+
+        // ===== EVENT LISTENERS =====
+        calculateBtn.addEventListener('click', calculateRevenue);
+
+        // Allow Enter key to calculate
+        viewsInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                calculateRevenue();
+            }
+        });
+
+        // Prevent negative numbers
+        viewsInput.addEventListener('input', (e) => {
+            if (e.target.value < 0) {
+                e.target.value = 0;
+            }
+        });
+
+        // Hide error on input
+        viewsInput.addEventListener('input', () => {
+            errorMessage.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
